@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Burger King Menu</title>
+  <style>
+    /* CSS 樣式可以自行調整 */
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .menu-section {
+      margin-bottom: 20px;
+    }
+    .menu-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Burger King Menu</h1>
+  <div id="menu-container"></div>
+
+  <script>
+    // JavaScript 用於從 JSON 檔案中載入菜單資訊並顯示在網頁上
+    fetch('burger_king_menu.json')
+      .then(response => response.json())
+      .then(data => {
+        const menuContainer = document.getElementById('menu-container');
+        data.forEach(item => {
+          const sectionName = item.category;
+          const itemName = item.name;
+          const itemPrice = item.price;
+          const itemDescription = item.description;
+
+          const sectionElement = document.createElement('div');
+          sectionElement.classList.add('menu-section');
+
+          const itemElement = document.createElement('div');
+          itemElement.classList.add('menu-item');
+          itemElement.innerHTML = `
+            <h2>${itemName}</h2>
+            <p>Price: ${itemPrice}</p>
+            <p>Description: ${itemDescription}</p>
+          `;
+
+          sectionElement.innerHTML = `<h3>${sectionName}</h3>`;
+          sectionElement.appendChild(itemElement);
+          menuContainer.appendChild(sectionElement);
+        });
+      })
+      .catch(error => console.error('Error fetching menu:', error));
+  </script>
+</body>
+</html>
